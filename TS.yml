@@ -1,0 +1,25 @@
+version: '3'
+services:
+  redis:
+    container_name: redis
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
+    networks:
+      - tick
+  tick_server:
+    container_name: tick-server
+    build:
+      context: ./tick-server
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      REDIS_URL: redis://redis
+    ports:
+      - 8111:8111
+    restart: always
+    networks:
+      - tick
+
+networks:
+  tick:

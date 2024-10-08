@@ -1,0 +1,27 @@
+version: '3'
+services:
+   web_server:
+    container_name: web-server
+    build:
+      context: ./web-server
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      REDIS_URL: redis://172.31.38.76
+      DB_DATABASE: tick
+      DB_HOST: tick.ch6emcc8c38p.ap-southeast-1.rds.amazonaws.com
+      DB_USER: admin
+      DB_PASSWORD: CFvjuIX1ugK2FOSA
+    ports:
+      - 8000:8000
+    restart: always
+    networks:
+      - tick
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-1
+        awslogs-group: tick
+
+networks:
+  tick:
